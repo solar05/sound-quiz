@@ -6,3 +6,5 @@ install:
 
 test:
 		npm run test-once
+clear:
+		npm run clean
