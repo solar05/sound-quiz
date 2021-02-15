@@ -5,3 +5,5 @@ node_modules/
 .shadow-cljs/
 
 out/
+
+public/js/cljs-runtime

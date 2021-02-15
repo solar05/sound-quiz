@@ -3,7 +3,8 @@
   "src/test"]
 
  :dependencies
- [[reagent "0.10.0"]]
+ [[reagent "0.10.0"]
+  [cljs-bach "0.3.0"]]
 
  :dev-http
  {3000 "public"}
