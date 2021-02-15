@@ -6,7 +6,7 @@
 (defonce audio-context (b/audio-context))
 
 (defn playback-mp3
-  [url]
+  [url duration]
   (let [mp3 (b/connect-> (b/sample url)  ; read file using js ajax, including caching
                          (b/gain 0.5)    ; you can chain optional effects here
                          b/destination)  ; loudspeakers
@@ -14,8 +14,7 @@
     (b/run-with mp3
                 audio-context
                 (b/current-time audio-context) 
-                3.0  ; play for 3 seconds
-                )))
+                duration)))
 
 (defn preload-sound [path]
   (b/sample path))
@@ -24,18 +23,23 @@
   (let [tasks (t/shuffle-tasks)
         task (t/take-task tasks)
         updated-tasks (t/drop-task task tasks)
-        path (t/build-path (task :title))]
+        path (t/build-path (task :title))
+        duration (task :duration)]
     (do
       (preload-sound path)
-      (playback-mp3 path))))
+      (playback-mp3 path duration))))
 
 (defn app []
-  [:div {:class "container"}
-   [:div {:class "jumbotron"}
-    [:h1 {:class "display-4"} "Game Sound Quiz!"]
-    [:input.btn.btn-success {:type "button" :value "Click me!" :on-click run-sound}]]
-   ])
-
+  [:div.container
+   [:div.jumbotron
+    [:h1.text-center.display-4 "Game Sound Quiz!"]
+    [:a {:on-click run-sound :href "#" :style {:color :black}}
+     [:i {:class "fas fa-play-circle fa-2x"}]]
+    [:a {:href "#" :style {:color :black}}
+     [:i {:class "fas fa-spin fa-cog"}] "Loading..."]
+    [:a {:href "#" :style {:color :black :cursor :not-allowed :pointer-events :none}}
+     [:i {:class "fas fa-stop-circle fa-2x"}]]
+    ]])
 
 (defn render []
   (rdom/render [app] (.getElementById js/document "root")))

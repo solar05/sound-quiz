@@ -6,4 +6,4 @@ node_modules/
 
 out/
 
-public/js/cljs-runtime
+public/js/
