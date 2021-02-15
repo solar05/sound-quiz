@@ -1,3 +1,4 @@
+![Tests](https://github.com/solar05/sound-quiz/workflows/Node.js%20CI/badge.svg)
 <img src="https://raw.githubusercontent.com/cljs/logo/master/cljs.svg" height="120">
 
 # Create Reagent App
