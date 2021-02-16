@@ -2,12 +2,11 @@
 
 (def tasks
   (list
-   {:title "disciples"
-    :names ["disciples"]
-    :duration 3}
-   {:title "disco_elysium"
+   {:title "01"
+    :names ["disciples"]}
+   {:title "02"
     :names ["disco elysium"]
-    :duration 17}))
+    }))
 
 (def path "/assets/")
 
