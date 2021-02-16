@@ -2,9 +2,9 @@
 
 (def tasks
   (list
-   {:title "01"
+   {:title "disciples"
     :names ["disciples"]}
-   {:title "02"
+   {:title "disco_elysium"
     :names ["disco elysium"]
     }))
 

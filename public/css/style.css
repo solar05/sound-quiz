@@ -33,3 +33,14 @@ audio {
     border: 5px double black;
     border-radius: 10px;
 }
+
+audio::-webkit-media-controls-volume-slider-container {
+    display: none;
+}
+audio::-webkit-media-controls-volume-slider {
+    display: none;
+}
+audio::-webkit-media-controls-mute-button {
+    display: none;
+}
+
