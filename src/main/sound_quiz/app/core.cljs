@@ -5,12 +5,14 @@
 
 (def default-volume 0.5)
 
-(defn select-task []
+(defn task-selector []
   (let [tasks (t/shuffle-tasks)
         task (t/take-task tasks)
         updated-tasks (t/drop-task task tasks)
         path (t/build-path (task :title))]
-    path))
+    [:div#task-selector
+     [:h3 (task :title)]
+     [:audio#sfx-sound {:src path :controlsList :nodownload :preload :auto}]]))
 
 (defn update-sound [e]
   (let [volume (js/parseFloat (.-value (.-target e)))]
@@ -23,14 +25,15 @@
 
 (defn check-sound []
   (when (nil? (c/get "volume")) (c/set! "volume" default-volume))
-  (-> js/document
-      (.getElementById "sfx-sound")
-      (.-volume)
-      (set! (c/get "volume")))
-  (-> js/document
-      (.getElementById "volume-setting")
-      (.-value)
-      (set! (c/get "volume"))))
+  (let [volume (c/get "volume")]
+    (-> js/document
+        (.getElementById "sfx-sound")
+        (.-volume)
+        (set! volume))
+    (-> js/document
+        (.getElementById "volume-setting")
+        (.-value)
+        (set! volume))))
 
 (defn play []
   (-> js/document
@@ -46,8 +49,8 @@
   [:div.container
    [:div.jumbotron
     [:h1.text-center.display-4 "Game Sound Quiz!"]
+    (task-selector)
     [:input#volume-setting.form-range {:type :range :min 0 :max 1 :step 0.05 :onChange update-sound}]
-    [:audio#sfx-sound {:src (select-task) :controlsList :nodownload :preload :auto}]
     [:div
      [:a {:onClick play :href "#" :style {:color :black}}
       [:i {:class "fas fa-play-circle fa-2x"}]]
@@ -58,7 +61,6 @@
 
 (defn render []
   (rdom/render [app] (.getElementById js/document "root")))
-
 
 (defn ^:export main []
   (render)
