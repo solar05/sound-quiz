@@ -1,6 +1,8 @@
 (ns sound-quiz.app.core
   (:require [reagent.dom :as rdom]
             [reagent.cookies :as c]
+            [reagent.core :as core]
+            [sound-quiz.app.components.button :as btn]
             [sound-quiz.app.tasks :as t]))
 
 (def default-volume 0.5)
@@ -12,7 +14,8 @@
         path (t/build-path (task :title))]
     [:div#task-selector
      [:h3 (task :title)]
-     [:audio#sfx-sound {:src path :controlsList :nodownload :preload :auto}]]))
+     [:audio#sfx-sound
+      {:src path :controlsList :nodownload :preload :auto :on-ended btn/end-play}]]))
 
 (defn update-sound [e]
   (let [volume (js/parseFloat (.-value (.-target e)))]
@@ -35,28 +38,13 @@
         (.-value)
         (set! volume))))
 
-(defn play []
-  (-> js/document
-  (.getElementById "sfx-sound")
-  (. play)))
-
-(defn pause []
-  (-> js/document
-  (.getElementById "sfx-sound")
-  (. pause)))
-
 (defn app []
   [:div.container
    [:div.jumbotron
     [:h1.text-center.display-4 "Game Sound Quiz!"]
     (task-selector)
     [:input#volume-setting.form-range {:type :range :min 0 :max 1 :step 0.05 :onChange update-sound}]
-    [:div
-     [:a {:onClick play :href "#" :style {:color :black}}
-      [:i {:class "fas fa-play-circle fa-2x"}]]
-     [:a {:onClick pause :style {:color :black}}
-      [:i {:class "fas fa-stop-circle fa-2x"}]]
-     ]
+    [btn/control-button]
     ]])
 
 (defn render []
