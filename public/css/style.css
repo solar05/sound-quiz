@@ -28,3 +28,8 @@ ul {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 }
+
+audio {
+    border: 5px double black;
+    border-radius: 10px;
+}

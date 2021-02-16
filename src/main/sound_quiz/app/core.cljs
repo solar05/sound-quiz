@@ -13,7 +13,7 @@
   [:div.container
    [:div.jumbotron
     [:h1.text-center.display-4 "Game Sound Quiz!"]
-    [:audio {:src (select-task) :controls :true :controlsList :nodownload :preload :auto :style {:border "5px double black" :border-radius "10px"}}]
+    [:audio {:src (select-task) :controls :true :controlsList :nodownload :preload :auto}]
     ]])
 
 (defn render []
