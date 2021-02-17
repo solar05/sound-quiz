@@ -5,14 +5,21 @@
             [sound-quiz.app.components.button :as btn]
             [sound-quiz.app.utils.main :as u]
             [sound-quiz.app.tasks :as t]
+            [goog.string :as gstr]
+            [goog.string.format]
             [clojure.string :as s]))
 
 (def default-volume 0.5)
+(def volume-val (core/atom (cookie/get "volume")))
+
+(defn volume-level []
+    [:p (gstr/format "%d%" (* @volume-val 100))])
 
 (defn update-sound [e]
   (let [volume (js/parseFloat (.-value (.-target e)))]
     (do
       (cookie/set! "volume" volume)
+      (reset! volume-val volume)
       (-> js/document
           (.getElementById "sfx-sound")
           (.-volume)
@@ -22,6 +29,7 @@
   (when (nil? (cookie/get "volume")) (cookie/set! "volume" default-volume))
   (let [volume (cookie/get "volume")]
     (do
+      (reset! volume-val volume)
       (-> js/document
           (.getElementById "sfx-sound")
           (.-volume)
@@ -86,9 +94,10 @@
        [:audio#sfx-sound
         {:src path :controlsList :nodownload
          :preload :auto :on-ended btn/end-play}]
-       [:input#volume-setting.form-range
+       [:div.container [:input#volume-setting.form-range
         {:type :range :min 0 :max 1 :step 0.05
          :onChange update-sound}]
+        [volume-level]]
        [btn/control-button]
        [game-logic]])
       [:div#gameover
