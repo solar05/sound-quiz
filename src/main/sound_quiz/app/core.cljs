@@ -45,7 +45,6 @@
 (defn incorrect-counter []
   [:p#incorrect-counter.badge.badge-danger @incorrect-answers])
 
-
 (def tasks (core/atom (t/shuffle-tasks)))
 (def task (core/atom (t/take-task @tasks)))
 
@@ -97,6 +96,7 @@
        [incorrect-counter]
        [:a.btn.btn-primary {:href "/" :on-click restart} "Начать заново!"]
        ]))
+
 (defn app []
   [:div.container
    [:div.jumbotron
