@@ -18,6 +18,19 @@
           (.-volume)
           (set! volume)))))
 
+(defn check-sound []
+  (when (nil? (cookie/get "volume")) (cookie/set! "volume" default-volume))
+  (let [volume (cookie/get "volume")]
+    (do
+      (-> js/document
+          (.getElementById "sfx-sound")
+          (.-volume)
+          (set! volume))
+      (-> js/document
+          (.getElementById "volume-setting")
+          (.-value)
+          (set! volume)))))
+
 (defn atom-input [value]
   [:input#answer {:type "text"
            :value @value
@@ -82,23 +95,8 @@
        [:h1 "Результат."]
        [correct-counter]
        [incorrect-counter]
-       [:a.btn.btn-primary {:href "#" :on-click restart}
-        "Начать заново!"]])
-    )
-
-(defn check-sound []
-  (when (nil? (cookie/get "volume")) (cookie/set! "volume" default-volume))
-  (let [volume (cookie/get "volume")]
-    (do
-    (-> js/document
-        (.getElementById "sfx-sound")
-        (.-volume)
-        (set! volume))
-    (-> js/document
-        (.getElementById "volume-setting")
-        (.-value)
-        (set! volume)))))
-
+       ;[:a.btn.btn-primary {:href "#" :on-click restart} "Начать заново!"]
+       ]))
 (defn app []
   [:div.container
    [:div.jumbotron
