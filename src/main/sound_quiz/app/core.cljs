@@ -48,9 +48,12 @@
           (set! volume)))))
 
 (defn atom-input [value]
-  [:input#answer {:type "text"
-           :value @value
-           :on-change #(reset! value (-> % .-target .-value))}])
+  [:input#answer.form-control
+   {:type "text"
+    :value @value
+    :aria-label "Ответ"
+    :aria-describedby "inputGroup-sizing-default"
+    :on-change #(reset! value (-> % .-target .-value))}])
 
 (def correct-answers (core/atom 0))
 (def incorrect-answers (core/atom 0))
@@ -75,7 +78,11 @@
              (reset! input "")
              (btn/end-play-first)
              (btn/end-play-second)))
-       [:p "Ответ: " [atom-input input]]])))
+       [:div.input-group.mb-3
+        [:div.input-group-prepend
+         [:span#inputGroup-sizing-default.input-group-text
+          "Ответ"]]
+        [atom-input input]]])))
 
 (defn restart []
   (reset! tasks (t/shuffle-tasks))
