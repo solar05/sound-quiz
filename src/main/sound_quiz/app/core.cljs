@@ -40,10 +40,10 @@
 (def incorrect-answers (core/atom 0))
 
 (defn correct-counter []
-  [:p#correct-counter.badge.badge-success @correct-answers])
+  [:span#correct-counter.btn.btn-success @correct-answers])
 
 (defn incorrect-counter []
-  [:p#incorrect-counter.badge.badge-danger @incorrect-answers])
+  [:span#incorrect-counter.btn.btn-danger @incorrect-answers])
 
 (def tasks (core/atom (t/shuffle-tasks)))
 (def task (core/atom (t/take-task @tasks)))
@@ -77,9 +77,10 @@
   (if (not (empty? @tasks))
     (let [path (t/build-path (@task :title))]
       [:div#task-selector
-       [correct-counter]
-       [incorrect-counter]
-       [:a#give-up.btn.btn-danger
+       [:div.container.btn-group {:role "group"}
+        [correct-counter]
+        [incorrect-counter]]
+       [:a#give-up.btn.btn-warning
         {:on-click give-up} "Сдаться"]
        [:h3 (@task :title)]
        [:audio#sfx-sound
@@ -92,9 +93,12 @@
        [game-logic]])
       [:div#gameover
        [:h1 "Результат."]
-       [correct-counter]
-       [incorrect-counter]
-       [:a.btn.btn-primary {:href "/" :on-click restart} "Начать заново!"]
+       [:div.container.btn-group {:role "group"}
+        [correct-counter]
+        [incorrect-counter]]
+       [:div.container
+        [:a.btn.btn-primary
+         {:href "/" :on-click restart} "Начать заново!"]]
        ]))
 
 (defn app []
