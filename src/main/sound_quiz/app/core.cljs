@@ -95,7 +95,7 @@
        [:h1 "Результат."]
        [correct-counter]
        [incorrect-counter]
-       ;[:a.btn.btn-primary {:href "#" :on-click restart} "Начать заново!"]
+       [:a.btn.btn-primary {:href "/" :on-click restart} "Начать заново!"]
        ]))
 (defn app []
   [:div.container
