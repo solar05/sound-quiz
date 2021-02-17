@@ -12,6 +12,8 @@
   (let [tasks (t/shuffle-tasks)
         task (t/take-task tasks)
         title (task :title)
-        path (t/build-path title)
-        builded-path (str "/assets/" title ".mp3")]
-    (is (= path builded-path))))
+        paths (t/build-path title)
+        builded-ost-path (str "/assets/ost/" title ".mp3")
+        builded-resp-path (str "/assets/responses/" title ".mp3")]
+    (is (= (paths :ost) builded-ost-path))
+    (is (= (paths :resp) builded-resp-path))))
