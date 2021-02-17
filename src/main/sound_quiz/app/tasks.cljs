@@ -9,6 +9,8 @@
    {:title "wow"
     :names ["wow" "world of warcraft" "warcraft"]}))
 
+(defonce task-count (count tasks))
+
 (def path "/assets/")
 
 (defn shuffle-tasks []
@@ -18,7 +20,7 @@
   (str path title ".mp3"))
 
 (defn take-task [tasks]
-  (rand-nth tasks))
+  (first tasks))
 
 (defn drop-task [task tasks]
   (filter #(not= % task) tasks))

@@ -1,6 +1,6 @@
 (ns sound-quiz.app.core
   (:require [reagent.dom :as rdom]
-            [reagent.cookies :as c]
+            [reagent.cookies :as cookie]
             [reagent.core :as core]
             [sound-quiz.app.components.button :as btn]
             [sound-quiz.app.utils.main :as u]
@@ -12,7 +12,7 @@
 (defn update-sound [e]
   (let [volume (js/parseFloat (.-value (.-target e)))]
     (do
-      (c/set! "volume" volume)
+      (cookie/set! "volume" volume)
       (-> js/document
           (.getElementById "sfx-sound")
           (.-volume)
@@ -23,60 +23,72 @@
            :value @value
            :on-change #(reset! value (-> % .-target .-value))}])
 
-(defn update-correct-counter []
-  (let [elem  (-> js/document
-                  (.getElementById "correct-counter"))
-        val (js/parseInt (.-innerHTML elem))]
-    (-> elem
-        (.-innerHTML)
-        (set! (inc val)))))
+(def correct-answers (core/atom 0))
+(def incorrect-answers (core/atom 0))
+
+(defn correct-counter []
+  [:p#correct-counter.badge.badge-success @correct-answers])
+
+(defn incorrect-counter []
+  [:p#incorrect-counter.badge.badge-danger @incorrect-answers])
+
 
 (def tasks (core/atom (t/shuffle-tasks)))
 (def task (core/atom (t/take-task @tasks)))
-
-(defn update-incorrect-counter []
-  (let [elem  (-> js/document
-                  (.getElementById "incorrect-counter"))
-        val (js/parseInt (.-innerHTML elem))]
-    (do
-      (-> elem
-          (.-innerHTML)
-          (set! (inc val)))
-      (reset! tasks (t/drop-task @task @tasks))
-      (when (empty? @tasks)
-        (reset! tasks (t/shuffle-tasks)))
-      (reset! task (t/take-task @tasks))
-      (btn/end-play))))
 
 (defn game-logic []
   (let [input (core/atom "")]
     (fn []
       [:div
        (if (u/in? (@task :names) (s/lower-case @input))
-         (do (update-correct-counter)
+         (do (swap! correct-answers inc)
              (reset! tasks (t/drop-task @task @tasks))
-             (when (empty? @tasks)
-               (reset! tasks (t/shuffle-tasks)))
              (reset! task (t/take-task @tasks))
              (reset! input "")
              (btn/end-play)))
        [:p "Ответ: " [atom-input input]]])))
 
+(defn restart []
+  (reset! tasks (t/shuffle-tasks))
+  (reset! task (t/take-task @tasks))
+  (reset! correct-answers 0)
+  (reset! incorrect-answers 0))
+
+(defn give-up []
+  (do
+    (swap! incorrect-answers inc)
+    (reset! tasks (t/drop-task @task @tasks))
+    (reset! task (t/take-task @tasks))
+    (btn/end-play)))
+
 (defn task-selector []
-  (let [path (t/build-path (@task :title))]
-     [:div#task-selector
-     [:h3 (@task :title)]
-     [:audio#sfx-sound
-      {:src path :controlsList :nodownload :preload :auto :on-ended btn/end-play}]
-     [:input#volume-setting.form-range
-      {:type :range :min 0 :max 1 :step 0.05 :onChange update-sound}]
-     [btn/control-button]
-     [game-logic]
-]))
+  (if (not (empty? @tasks))
+    (let [path (t/build-path (@task :title))]
+      [:div#task-selector
+       [correct-counter]
+       [incorrect-counter]
+       [:a#give-up.btn.btn-danger
+        {:on-click give-up} "Сдаться"]
+       [:h3 (@task :title)]
+       [:audio#sfx-sound
+        {:src path :controlsList :nodownload
+         :preload :auto :on-ended btn/end-play}]
+       [:input#volume-setting.form-range
+        {:type :range :min 0 :max 1 :step 0.05
+         :onChange update-sound}]
+       [btn/control-button]
+       [game-logic]])
+      [:div#gameover
+       [:h1 "Результат."]
+       [correct-counter]
+       [incorrect-counter]
+       [:a.btn.btn-primary {:href "#" :on-click restart}
+        "Начать заново!"]])
+    )
 
 (defn check-sound []
-  (when (nil? (c/get "volume")) (c/set! "volume" default-volume))
-  (let [volume (c/get "volume")]
+  (when (nil? (cookie/get "volume")) (cookie/set! "volume" default-volume))
+  (let [volume (cookie/get "volume")]
     (do
     (-> js/document
         (.getElementById "sfx-sound")
@@ -91,12 +103,7 @@
   [:div.container
    [:div.jumbotron
     [:h1.text-center.display-4 "Game Sound Quiz!"]
-    [:p#correct-counter.badge.badge-success 0]
-    [:p#incorrect-counter.badge.badge-danger 0]
-    [:br]
-    [:a#give-up.btn.btn-danger {:on-click update-incorrect-counter} "Сдаться"]
-    [task-selector]
-    ]])
+    [task-selector]]])
 
 (defn render []
   (rdom/render [app] (.getElementById js/document "root")))
