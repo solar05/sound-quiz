@@ -2,7 +2,7 @@
   (:require [reagent.dom :as rdom]
             [reagent.cookies :as cookie]
             [reagent.core :as core]
-            [sound-quiz.app.components.button :as btn]
+            [sound-quiz.app.components.play-button :as pb]
             [sound-quiz.app.utils.main :as u]
             [sound-quiz.app.tasks :as t]
             [goog.string :as gstr]
@@ -76,8 +76,8 @@
              (reset! tasks (t/drop-task @task @tasks))
              (reset! task (t/take-task @tasks))
              (reset! input "")
-             (btn/end-play-first)
-             (btn/end-play-second)))
+             (pb/ost-end-play)
+             (pb/response-end-play)))
        [:div.input-group.mb-3
         [:div.input-group-prepend
          [:span#inputGroup-sizing-default.input-group-text
@@ -95,8 +95,8 @@
     (swap! incorrect-answers inc)
     (reset! tasks (t/drop-task @task @tasks))
     (reset! task (t/take-task @tasks))
-    (btn/end-play-first)
-    (btn/end-play-second)))
+    (pb/ost-end-play)
+    (pb/response-end-play)))
 
 (defn task-selector []
   (if (not (empty? @tasks))
@@ -112,14 +112,14 @@
          [:div#ost-container.container
           [:audio#ost-sound
           {:src (paths :ost) :controlsList :nodownload
-           :preload :auto :on-ended btn/end-play-first}]
-          [btn/control-button-first]])
+           :preload :auto :on-ended pb/ost-end-play}]
+          [pb/ost-control-button]])
        (when (paths :resp)
          [:div#resp-container.container
           [:audio#resp-sound
            {:src (paths :resp) :controlsList :nodownload
-           :preload :auto :on-ended btn/end-play-second}]
-          [btn/control-button-second]])
+           :preload :auto :on-ended pb/response-end-play}]
+          [pb/response-control-button]])
        [:div.container [:input#volume-setting.form-range
         {:type :range :min 0 :max 1 :step 0.05
          :onChange update-sound}]
