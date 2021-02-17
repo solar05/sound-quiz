@@ -11,13 +11,12 @@
 
 (defonce task-count (count tasks))
 
-(def path "/assets/")
-
 (defn shuffle-tasks []
   (shuffle tasks))
 
 (defn build-path [title]
-  (str path title ".mp3"))
+  {:ost (str "/assets/ost/" title ".mp3")
+   :resp (str "/assets/responses/" title ".mp3")})
 
 (defn take-task [tasks]
   (first tasks))

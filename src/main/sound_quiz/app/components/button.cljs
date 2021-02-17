@@ -2,28 +2,53 @@
   (:require [reagent.core :as core]
             [sound-quiz.app.tasks :as t]))
 
-(defonce playing (core/atom false))
+(defonce playing-first (core/atom false))
+(defonce playing-second (core/atom false))
 
-(defn play []
+(defn play-first []
   (do
   (-> js/document
-      (.getElementById "sfx-sound")
+      (.getElementById "ost-sound")
       (. play))
-  (swap! playing not)))
+  (swap! playing-first not)))
 
-(defn pause []
+(defn pause-first []
   (do
   (-> js/document
-      (.getElementById "sfx-sound")
+      (.getElementById "ost-sound")
       (. pause))
-  (swap! playing not)))
+  (swap! playing-first not)))
 
-(defn control-button []
-  (if (not @playing)
-    [:a {:on-click play :href "#" :style {:color :black}}
+(defn play-second [elem-id]
+  (do
+    (-> js/document
+        (.getElementById "resp-sound")
+        (. play))
+    (swap! playing-second not)))
+
+(defn pause-second []
+  (do
+    (-> js/document
+        (.getElementById "resp-sound")
+        (. pause))
+    (swap! playing-second not)))
+
+(defn control-button-first [elem]
+  (if (not @playing-first)
+    [:a {:on-click play-first :href "#" :style {:color :black}}
      [:i {:class "fas fa-play-circle fa-2x"}]]
-    [:a {:on-click pause :style {:color :black}}
+    [:a {:on-click pause-first :style {:color :black}}
      [:i {:class "fas fa-stop-circle fa-2x"}]]))
 
-(defn end-play []
-  (reset! playing false))
+(defn control-button-second []
+  (if (not @playing-second)
+    [:a {:on-click play-second :href "#" :style {:color :black}}
+     [:i {:class "fas fa-play-circle fa-2x"}]]
+    [:a {:on-click pause-second :style {:color :black}}
+     [:i {:class "fas fa-stop-circle fa-2x"}]]))
+
+(defn end-play-first []
+  (reset! playing-first false))
+
+(defn end-play-second []
+  (reset! playing-second false))

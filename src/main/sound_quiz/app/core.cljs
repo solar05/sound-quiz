@@ -21,7 +21,11 @@
       (cookie/set! "volume" volume)
       (reset! volume-val volume)
       (-> js/document
-          (.getElementById "sfx-sound")
+          (.getElementById "ost-sound")
+          (.-volume)
+          (set! volume))
+      (-> js/document
+          (.getElementById "resp-sound")
           (.-volume)
           (set! volume)))))
 
@@ -31,7 +35,11 @@
     (do
       (reset! volume-val volume)
       (-> js/document
-          (.getElementById "sfx-sound")
+          (.getElementById "ost-sound")
+          (.-volume)
+          (set! volume))
+      (-> js/document
+          (.getElementById "resp-sound")
           (.-volume)
           (set! volume))
       (-> js/document
@@ -83,7 +91,7 @@
 
 (defn task-selector []
   (if (not (empty? @tasks))
-    (let [path (t/build-path (@task :title))]
+    (let [paths (t/build-path (@task :title))]
       [:div#task-selector
        [:div.container.btn-group {:role "group"}
         [correct-counter]
@@ -91,14 +99,22 @@
        [:a#give-up.btn.btn-warning
         {:on-click give-up} "Сдаться"]
        [:h3 (@task :title)]
-       [:audio#sfx-sound
-        {:src path :controlsList :nodownload
-         :preload :auto :on-ended btn/end-play}]
+       (when (paths :ost)
+         [:div#ost-container.container
+          [:audio#ost-sound
+          {:src (paths :ost) :controlsList :nodownload
+           :preload :auto :on-ended btn/end-play-first}]
+          [btn/control-button-first]])
+       (when (paths :resp)
+         [:div#resp-container.container
+          [:audio#resp-sound
+           {:src (paths :resp) :controlsList :nodownload
+           :preload :auto :on-ended btn/end-play-second}]
+          [btn/control-button-second]])
        [:div.container [:input#volume-setting.form-range
         {:type :range :min 0 :max 1 :step 0.05
          :onChange update-sound}]
         [volume-level]]
-       [btn/control-button]
        [game-logic]])
       [:div#gameover
        [:h1 "Результат."]
