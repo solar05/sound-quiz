@@ -73,7 +73,8 @@
              (reset! tasks (t/drop-task @task @tasks))
              (reset! task (t/take-task @tasks))
              (reset! input "")
-             (btn/end-play)))
+             (btn/end-play-first)
+             (btn/end-play-second)))
        [:p "Ответ: " [atom-input input]]])))
 
 (defn restart []
@@ -87,7 +88,8 @@
     (swap! incorrect-answers inc)
     (reset! tasks (t/drop-task @task @tasks))
     (reset! task (t/take-task @tasks))
-    (btn/end-play)))
+    (btn/end-play-first)
+    (btn/end-play-second)))
 
 (defn task-selector []
   (if (not (empty? @tasks))
