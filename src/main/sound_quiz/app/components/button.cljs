@@ -26,4 +26,4 @@
      [:i {:class "fas fa-stop-circle fa-2x"}]]))
 
 (defn end-play []
-  (swap! playing not))
+  (reset! playing false))

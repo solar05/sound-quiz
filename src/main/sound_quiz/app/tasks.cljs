@@ -5,8 +5,9 @@
    {:title "disciples"
     :names ["disciples"]}
    {:title "disco_elysium"
-    :names ["disco elysium"]
-    }))
+    :names ["disco_elysium" "disco"]}
+   {:title "wow"
+    :names ["wow" "world of warcraft" "warcraft"]}))
 
 (def path "/assets/")
 
@@ -20,4 +21,4 @@
   (rand-nth tasks))
 
 (defn drop-task [task tasks]
-  (remove task tasks))
+  (filter #(not= % task) tasks))
