@@ -153,12 +153,31 @@
     [:h1.text-center.display-4 "Game Sound Quiz!"]
     [task-selector]]])
 
-(defn render []
+(defn modal-content []
+  [:p "Угадайте, какой игре принадлежит мелодия и фраза. Введите название игры на английском, регистр не важен."])
+
+(defn modal-button []
+  [:div.footer.fixed-bottom
+   [:button.btn.btn-info.m-2.float-right
+   {:type "button"
+    :data-toggle "modal"
+    :data-target "#infoModal"}
+   "ЧАВО"]])
+
+(defn render-game []
   (rdom/render [app] (.getElementById js/document "root")))
 
+(defn render-modal []
+  (do
+    (rdom/render [modal-content] (.getElementById js/document "modal-body"))
+    (rdom/render [modal-button] (.getElementById js/document "footer-id"))))
+
 (defn ^:export main []
-  (render)
-  (set-sound))
+  (render-game)
+  (set-sound)
+  (render-modal))
 
 (defn ^:dev/after-load reload! []
-  (render))
+  (render-game)
+  (render-modal))
+
