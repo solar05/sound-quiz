@@ -9,17 +9,23 @@
             [goog.string.format]
             [clojure.string :as s]))
 
-(def default-volume 0.5)
-(def volume-val (core/atom (cookie/get "volume")))
+(defn check-sound []
+  (let [default-volume 0.5
+        volume (cookie/get "volume")]
+    (if (nil? volume)
+      default-volume
+      volume)))
+
+(def volume-level-val (core/atom (check-sound)))
 
 (defn volume-level []
-    [:p (gstr/format "%d%" (* @volume-val 100))])
+    [:p (gstr/format "%d%" (* @volume-level-val 100))])
 
 (defn update-sound [e]
   (let [volume (js/parseFloat (.-value (.-target e)))]
     (do
       (cookie/set! "volume" volume)
-      (reset! volume-val volume)
+      (reset! volume-level-val volume)
       (-> js/document
           (.getElementById "ost-sound")
           (.-volume)
@@ -29,11 +35,18 @@
           (.-volume)
           (set! volume)))))
 
-(defn check-sound []
-  (when (nil? (cookie/get "volume")) (cookie/set! "volume" default-volume))
-  (let [volume (cookie/get "volume")]
+(defn volume-slider []
+  [:input#volume-setting.form-range
+   {:type :range
+    :min 0 :max 1
+    :step 0.05
+    :value @volume-level-val
+    :onChange update-sound}])
+
+(defn set-sound []
+  (let [volume (check-sound)]
     (do
-      (reset! volume-val volume)
+      (reset! volume-level-val volume)
       (-> js/document
           (.getElementById "ost-sound")
           (.-volume)
@@ -41,13 +54,9 @@
       (-> js/document
           (.getElementById "resp-sound")
           (.-volume)
-          (set! volume))
-      (-> js/document
-          (.getElementById "volume-setting")
-          (.-value)
           (set! volume)))))
 
-(defn atom-input [value]
+(defn answer-input [value]
   [:input#answer.form-control
    {:type "text"
     :value @value
@@ -82,13 +91,14 @@
         [:div.input-group-prepend
          [:span#inputGroup-sizing-default.input-group-text
           "Ответ"]]
-        [atom-input input]]])))
+        [answer-input input]]])))
 
 (defn restart []
   (reset! tasks (t/shuffle-tasks))
   (reset! task (t/take-task @tasks))
   (reset! correct-answers 0)
-  (reset! incorrect-answers 0))
+  (reset! incorrect-answers 0)
+  (check-sound))
 
 (defn give-up []
   (do
@@ -117,12 +127,12 @@
        (when (paths :resp)
          [:div#resp-container.container
           [:audio#resp-sound
-           {:src (paths :resp) :controlsList :nodownload
-           :preload :auto :on-ended pb/response-end-play}]
+           {:src (paths :resp)
+            :preload :auto
+            :on-ended pb/response-end-play}]
           [pb/response-control-button]])
-       [:div.container [:input#volume-setting.form-range
-        {:type :range :min 0 :max 1 :step 0.05
-         :onChange update-sound}]
+       [:div.container
+        [volume-slider]
         [volume-level]]
        [game-logic]])
       [:div#gameover
@@ -132,7 +142,9 @@
         [incorrect-counter]]
        [:div.container
         [:a.btn.btn-primary
-         {:href "/" :on-click restart} "Начать заново!"]]
+         {:href "/"
+          ;:on-click restart
+          } "Начать заново!"]]
        ]))
 
 (defn app []
@@ -146,8 +158,7 @@
 
 (defn ^:export main []
   (render)
-  (check-sound))
+  (set-sound))
 
 (defn ^:dev/after-load reload! []
-  (render)
-  (check-sound))
+  (render))
