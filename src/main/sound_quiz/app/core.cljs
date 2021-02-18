@@ -97,11 +97,11 @@
 
 (defn modal-button []
   [:div.footer.fixed-bottom
-   [:button.btn.btn-info.m-2.float-right
-   {:type "button"
+   [:a.m-3.float-right
+   {:href "#"
     :data-toggle "modal"
     :data-target "#infoModal"}
-   "ЧАВО"]])
+    [:i.far.fa-question-circle.fa-3x]]])
 
 (defn render-game []
   (rdom/render [app] (.getElementById js/document "root")))
