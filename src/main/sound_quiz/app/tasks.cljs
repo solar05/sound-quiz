@@ -1,4 +1,6 @@
-(ns sound-quiz.app.tasks)
+(ns sound-quiz.app.tasks
+  (:require [clojure.string :as s]
+            [sound-quiz.app.utils.main :as u]))
 
 (def tasks
   (list
@@ -23,3 +25,6 @@
 
 (defn drop-task [task tasks]
   (filter #(not= % task) tasks))
+
+(defn correct? [task suggestion]
+  (u/in? (task :names) (s/lower-case suggestion)))

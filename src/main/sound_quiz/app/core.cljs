@@ -3,11 +3,10 @@
             [reagent.cookies :as cookie]
             [reagent.core :as core]
             [sound-quiz.app.components.play-button :as pb]
-            [sound-quiz.app.utils.main :as u]
+            [sound-quiz.app.components.counters :as cnt]
             [sound-quiz.app.tasks :as t]
             [goog.string :as gstr]
-            [goog.string.format]
-            [clojure.string :as s]))
+            [goog.string.format]))
 
 (defn check-sound []
   (let [default-volume 0.5
@@ -64,57 +63,48 @@
     :aria-describedby "inputGroup-sizing-default"
     :on-change #(reset! value (-> % .-target .-value))}])
 
-(def correct-answers (core/atom 0))
-(def incorrect-answers (core/atom 0))
-
-(defn correct-counter []
-  [:span#correct-counter.btn.btn-success @correct-answers])
-
-(defn incorrect-counter []
-  [:span#incorrect-counter.btn.btn-danger @incorrect-answers])
-
 (def tasks (core/atom (t/shuffle-tasks)))
 (def task (core/atom (t/take-task @tasks)))
+
+(defn proceed-next-quiz [result]
+  (do
+    (cnt/submit-result result)
+    (reset! tasks (t/drop-task @task @tasks))
+    (reset! task (t/take-task @tasks))
+    (pb/ost-end-play)
+    (pb/response-end-play)))
 
 (defn game-logic []
   (let [input (core/atom "")]
     (fn []
       [:div
-       (if (u/in? (@task :names) (s/lower-case @input))
-         (do (swap! correct-answers inc)
-             (reset! tasks (t/drop-task @task @tasks))
-             (reset! task (t/take-task @tasks))
-             (reset! input "")
-             (pb/ost-end-play)
-             (pb/response-end-play)))
+       (if (t/correct? @task @input)
+         (do
+           (reset! input "")
+           (proceed-next-quiz true))
        [:div.input-group.mb-3
         [:div.input-group-prepend
          [:span#inputGroup-sizing-default.input-group-text
           "Ответ"]]
-        [answer-input input]]])))
+        [answer-input input]])])))
 
 (defn restart []
-  (reset! tasks (t/shuffle-tasks))
-  (reset! task (t/take-task @tasks))
-  (reset! correct-answers 0)
-  (reset! incorrect-answers 0)
-  (check-sound))
+  (do
+    (reset! tasks (t/shuffle-tasks))
+    (reset! task (t/take-task @tasks))
+    (cnt/reset-counters)
+    (check-sound)))
 
 (defn give-up []
-  (do
-    (swap! incorrect-answers inc)
-    (reset! tasks (t/drop-task @task @tasks))
-    (reset! task (t/take-task @tasks))
-    (pb/ost-end-play)
-    (pb/response-end-play)))
+  (proceed-next-quiz false))
 
 (defn task-selector []
   (if (not (empty? @tasks))
     (let [paths (t/build-path (@task :title))]
       [:div#task-selector
        [:div.container.btn-group {:role "group"}
-        [correct-counter]
-        [incorrect-counter]]
+        [cnt/correct-counter]
+        [cnt/incorrect-counter]]
        [:a#give-up.btn.btn-warning
         {:on-click give-up} "Сдаться"]
        [:h3 (@task :title)]
@@ -138,8 +128,8 @@
       [:div#gameover
        [:h1 "Результат."]
        [:div.container.btn-group {:role "group"}
-        [correct-counter]
-        [incorrect-counter]]
+        [cnt/correct-counter]
+        [cnt/incorrect-counter]]
        [:div.container
         [:a.btn.btn-primary
          {:href "/"
