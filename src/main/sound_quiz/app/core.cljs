@@ -4,6 +4,7 @@
             [sound-quiz.app.components.play-button :as pb]
             [sound-quiz.app.components.counters :as cnt]
             [sound-quiz.app.tasks :as t]
+            [sound-quiz.app.components.modal :as md]
             [sound-quiz.app.components.volume :as vol]))
 
 (defn answer-input [value]
@@ -92,31 +93,15 @@
     [:h1.text-center.display-4 "Game Sound Quiz!"]
     [task-selector]]])
 
-(defn modal-content []
-  [:p "Угадайте, какой игре принадлежит мелодия и фраза. Введите название игры на английском, регистр не важен."])
-
-(defn modal-button []
-  [:div.footer.fixed-bottom
-   [:a.m-3.float-right
-   {:href "#"
-    :data-toggle "modal"
-    :data-target "#infoModal"}
-    [:i.far.fa-question-circle.fa-3x]]])
-
 (defn render-game []
   (rdom/render [app] (.getElementById js/document "root")))
-
-(defn render-modal []
-  (do
-    (rdom/render [modal-content] (.getElementById js/document "modal-body"))
-    (rdom/render [modal-button] (.getElementById js/document "footer-id"))))
 
 (defn ^:export main []
   (render-game)
   (vol/set-sound)
-  (render-modal))
+  (md/render-modal))
 
 (defn ^:dev/after-load reload! []
   (render-game)
-  (render-modal))
+  (md/render-modal))
 
