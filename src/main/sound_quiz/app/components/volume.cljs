@@ -49,6 +49,11 @@
       (proceed-elements-volume volume))))
 
 (defn volume-control []
-  [:div#volume-control.container
+  [:div#volume-control.container.d-inline-block
+   (if (= 0 @volume-level-val)
+     [:i.fas.fa-volume-mute.fa-2x.m-1 {:style {:color :black}}]
+     [:i.fas.fa-volume-down.fa-2x.m-2 {:style {:color :black}}])
    [volume-slider]
-   [volume-level]])
+   [:i.fas.fa-volume-up.fa-2x.d.m-2 {:style {:color :black}}]
+   ;[volume-level]
+   ])

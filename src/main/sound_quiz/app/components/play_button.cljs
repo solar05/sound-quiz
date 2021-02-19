@@ -41,10 +41,10 @@
 
 (defn response-control-button []
   (if (not @response-playing)
-    [:a {:on-click play-response :href "#" :style {:color :black}}
-     [:i {:class "fas fa-play-circle fa-2x"}]]
-    [:a {:on-click pause-response :style {:color :black}}
-     [:i {:class "fas fa-stop-circle fa-2x"}]]))
+    [:a {:on-click play-response :href "#"}
+     [:i.fas.fa-comment.fa-2x {:style {:color :black}}]]
+    [:a {:on-click pause-response}
+     [:i.fas.fa-comment-slash.fa-2x {:style {:color :black}}]]))
 
 (defn ost-end-play []
   (reset! ost-playing false))
