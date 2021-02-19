@@ -93,7 +93,7 @@
 
 (defn app []
   [:div.container
-   [:div.jumbotron {:style {:padding-bottom "1em"}}
+   [:div.jumbotron {:style {:padding-bottom "1.2em" :padding-top "0.5em"}}
     [:h1.text-center.display-4.p-4 "Game Sound Quiz!"]
     [task-selector]]])
 
