@@ -7,7 +7,7 @@ test:
 clear:
 		npm run clean
 build:
-		npm run build
+		npm run build-verbose
 docker-build:
 		docker build -t sound-quiz .
 docker-run:
