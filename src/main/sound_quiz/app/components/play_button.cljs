@@ -4,35 +4,46 @@
 (defonce ost-playing (core/atom false))
 (defonce response-playing (core/atom false))
 
+(defn focus-answer []
+  (-> js/document
+      (.getElementById "answer")
+      (. focus)))
+
+(defn play [audio-element]
+  (-> js/document
+      (.getElementById audio-element)
+      (. play)))
+
+(defn stop [audio-element]
+  (-> js/document
+      (.getElementById audio-element)
+      (. pause)))
+
 (defn play-ost []
   (do
-  (-> js/document
-      (.getElementById "ost-sound")
-      (. play))
-  (swap! ost-playing not)))
+    (play "ost-sound")
+    (focus-answer)
+    (swap! ost-playing not)))
 
 (defn pause-ost []
   (do
-  (-> js/document
-      (.getElementById "ost-sound")
-      (. pause))
-  (swap! ost-playing not)))
+    (stop "ost-sound")
+    (focus-answer)
+    (swap! ost-playing not)))
 
 (defn play-response []
   (do
-    (-> js/document
-        (.getElementById "resp-sound")
-        (. play))
+    (play "resp-sound")
+    (focus-answer)
     (swap! response-playing not)))
 
 (defn pause-response []
   (do
-    (-> js/document
-        (.getElementById "resp-sound")
-        (. pause))
+    (stop "resp-sound")
+    (focus-answer)
     (swap! response-playing not)))
 
-(defn ost-control-button [elem]
+(defn ost-control-button []
   (if (not @ost-playing)
     [:a {:on-click play-ost :href "#" :style {:color :black}}
      [:i {:class "fas fa-play-circle fa-2x"}]]
