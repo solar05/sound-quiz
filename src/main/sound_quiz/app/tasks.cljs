@@ -7,9 +7,11 @@
    {:title "disciples"
     :names ["disciples"]}
    {:title "disco_elysium"
-    :names ["disco_elysium" "disco"]}
+    :names ["disco_elysium"]}
    {:title "wow"
-    :names ["wow" "world of warcraft" "warcraft"]}))
+    :names ["wow" "world of warcraft" "warcraft"]}
+   {:title "castlevania"
+    :names ["castlevania"]}))
 
 (defonce task-count (count tasks))
 
