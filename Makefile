@@ -12,3 +12,6 @@ docker-build:
 		docker build -t sound-quiz .
 docker-run:
 		docker run -p 80:80 sound-quiz:latest
+docker-run-daemon:
+		docker run -p 80:80 -d sound-quiz:latest
+
