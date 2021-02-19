@@ -49,7 +49,7 @@
       (proceed-elements-volume volume))))
 
 (defn volume-control []
-  [:div#volume-control.container.d-inline-block
+  [:div#volume-control.d-inline-block.justify-content-left
    (if (= 0 @volume-level-val)
      [:i.fas.fa-volume-mute.fa-2x.m-1 {:style {:color :black}}]
      [:i.fas.fa-volume-down.fa-2x.m-2 {:style {:color :black}}])

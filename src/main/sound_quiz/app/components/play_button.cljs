@@ -46,19 +46,19 @@
 (defn ost-control-button []
   (if (not @ost-playing)
     [:a.m-1 {:on-click play-ost :href "#"}
-     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-play-circle.fa-2x
+     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-play-circle.fa-3x
       {:style {:color :black}}]]
     [:a.m-1 {:on-click pause-ost :href "#"}
-     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-stop-circle.fa-2x
+     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-stop-circle.fa-3x
       {:style {:color :black}}]]))
 
 (defn response-control-button []
   (if (not @response-playing)
     [:a.m-1 {:on-click play-response :href "#"}
-     [:i.p-1.fas.fa-comment.fa-2x
+     [:i.p-1.fas.fa-comment.fa-3x
       {:style {:color :black}}]]
-    [:a.m-1 {:on-click pause-response :href "#"}
-     [:i.p-1.fas.fa-comment-slash.fa-2x
+    [:a {:on-click pause-response :href "#"}
+     [:i.p-1.fas.fa-comment-slash.fa-3x
       {:style {:color :black}}]]))
 
 (defn ost-end-play []

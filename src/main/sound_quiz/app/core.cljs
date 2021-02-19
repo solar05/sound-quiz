@@ -54,43 +54,47 @@
   (if (not (empty? @tasks))
     (let [paths (t/build-path (@task :title))]
       [:div#task-selector
-       [:div.container.btn-group {:role "group"}
+       [:div.container.btn-group.d-flex.d-inline-block.justify-content-center
+        {:role "group"}
         [cnt/correct-counter]
         [cnt/incorrect-counter]]
-       [:a#give-up.btn.btn-warning
-        {:on-click give-up} "Сдаться"]
-       [:h3 (@task :title)]
-       (when (paths :ost)
-         [:div#ost-container.container
-          [:audio#ost-sound
-          {:src (paths :ost) :controlsList :nodownload
-           :preload :auto :on-ended pb/ost-end-play}]
-          [pb/ost-control-button]])
-       (when (paths :resp)
-         [:div#resp-container.container
-          [:audio#resp-sound
-           {:src (paths :resp)
-            :preload :auto
-            :on-ended pb/response-end-play}]
-          [pb/response-control-button]])
+       [:div.d-flex.d-inline-block.justify-content-center.m-2
+        (when (paths :ost)
+          [:div#ost-container.p-4
+           [:audio#ost-sound
+            {:src (paths :ost) :controlsList :nodownload
+             :preload :auto :on-ended pb/ost-end-play}]
+           [pb/ost-control-button]])
+        (when (paths :resp)
+          [:div#resp-container.p-4
+           [:audio#resp-sound
+            {:src (paths :resp)
+             :preload :auto
+             :on-ended pb/response-end-play}]
+           [pb/response-control-button]])
+        ]
+       [game-logic]
        [vol/volume-control]
-       [game-logic]])
+       [:a#give-up.btn.btn-warning.btn-lg.border.border-dark.float-right
+        {:on-click give-up} "Сдаться"]])
       [:div#gameover
-       [:h1 "Результат."]
-       [:div.container.btn-group {:role "group"}
+       ;[:h2.font-weight-bold.d-flex.d-inline-block.justify-content-center.m-3
+       ; "Результат"]
+       [:div.container.btn-group.d-flex.d-inline-block.justify-content-center.mb-4
+        {:role "group"}
         [cnt/correct-counter]
         [cnt/incorrect-counter]]
        [:div.container
-        [:a.btn.btn-primary
+        [:a.btn.btn-primary.btn-lg.d-flex.d-inline-block.justify-content-center.m-2
          {:href "/"
           ;:on-click restart
-          } "Начать заново!"]]
+          } "Начать заново?"]]
        ]))
 
 (defn app []
   [:div.container
-   [:div.jumbotron
-    [:h1.text-center.display-4 "Game Sound Quiz!"]
+   [:div.jumbotron {:style {:padding-bottom "1em"}}
+    [:h1.text-center.display-4.p-4 "Game Sound Quiz!"]
     [task-selector]]])
 
 (defn render-game []
