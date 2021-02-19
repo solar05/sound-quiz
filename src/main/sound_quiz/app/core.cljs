@@ -12,7 +12,7 @@
    {:type "text"
     :value @value
     :aria-label "Ответ"
-    :aria-describedby "inputGroup-sizing-default"
+    :aria-describedby "inputGroup-sizing-lg"
     :on-change #(reset! value (-> % .-target .-value))}])
 
 (def tasks (core/atom (t/shuffle-tasks)))
@@ -34,9 +34,9 @@
          (do
            (reset! input "")
            (proceed-next-quiz true))
-       [:div.input-group.mb-3
+       [:div.input-group.input-group-lg.mb-3
         [:div.input-group-prepend
-         [:span#inputGroup-sizing-default.input-group-text
+         [:span#inputGroup-sizing-lg.input-group-text.font-weight-bold
           "Ответ"]]
         [answer-input input]])])))
 

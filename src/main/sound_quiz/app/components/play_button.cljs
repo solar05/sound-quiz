@@ -7,7 +7,7 @@
 (defn focus-answer []
   (-> js/document
       (.getElementById "answer")
-      (. focus)))
+      (. focus (clj->js {:preventScroll true}))))
 
 (defn play [audio-element]
   (-> js/document
@@ -45,17 +45,21 @@
 
 (defn ost-control-button []
   (if (not @ost-playing)
-    [:a {:on-click play-ost :href "#" :style {:color :black}}
-     [:i {:class "fas fa-play-circle fa-2x"}]]
-    [:a {:on-click pause-ost :style {:color :black}}
-     [:i {:class "fas fa-stop-circle fa-2x"}]]))
+    [:a.m-1 {:on-click play-ost :href "#"}
+     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-play-circle.fa-2x
+      {:style {:color :black}}]]
+    [:a.m-1 {:on-click pause-ost :href "#"}
+     [:i.p-1.border.border-secondary.rounded-circle.fas.fa-stop-circle.fa-2x
+      {:style {:color :black}}]]))
 
 (defn response-control-button []
   (if (not @response-playing)
-    [:a {:on-click play-response :href "#"}
-     [:i.fas.fa-comment.fa-2x {:style {:color :black}}]]
-    [:a {:on-click pause-response}
-     [:i.fas.fa-comment-slash.fa-2x {:style {:color :black}}]]))
+    [:a.m-1 {:on-click play-response :href "#"}
+     [:i.p-1.fas.fa-comment.fa-2x
+      {:style {:color :black}}]]
+    [:a.m-1 {:on-click pause-response :href "#"}
+     [:i.p-1.fas.fa-comment-slash.fa-2x
+      {:style {:color :black}}]]))
 
 (defn ost-end-play []
   (reset! ost-playing false))
