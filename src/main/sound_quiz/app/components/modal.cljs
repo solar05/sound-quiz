@@ -61,7 +61,7 @@
        [:tr.text-center
         [:td "Название"]
         [:td "Результат"]]]
-     [history-modal-tasks]]]
+      [history-modal-tasks]]]
     [:div.modal-footer
      [:button.btn.btn-secondary
       {:type "button"

@@ -57,8 +57,6 @@
 (defn give-up []
   (proceed-next-quiz false))
 
-(def ids [{:x 1 :y 2} {:x 3 :y 4}])
-
 (defn task-selector []
   (if (not (empty? @tasks))
     (let [paths (t/build-path (@task :title))]
@@ -77,9 +75,9 @@
            :on-ended pb/response-end-play}]
          [pb/response-control-button]]]
        [:div.container.mb-4
-       [vol/volume-control]
-       [:a#give-up.btn.btn-warning.btn-lg.border.border-dark.float-right
-        {:on-click give-up} "Пропустить"]]
+        [vol/volume-control]
+        [:a#give-up.btn.btn-warning.btn-lg.border.border-dark.float-right
+         {:on-click give-up} "Пропустить"]]
        [game-logic]])
     [:div#gameover
      (when (cnt/all-correct?)
