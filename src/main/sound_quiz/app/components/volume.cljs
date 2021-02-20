@@ -13,15 +13,12 @@
 
 (def volume-level-val (core/atom (check-sound)))
 
-(defn volume-level []
-  [:p (gstr/format "%d%" (* @volume-level-val 100))])
-
 (defn proceed-elements-volume [volume]
   (do
     (-> js/document
-             (.getElementById "ost-sound")
-             (.-volume)
-             (set! volume))
+        (.getElementById "ost-sound")
+        (.-volume)
+        (set! volume))
     (-> js/document
         (.getElementById "resp-sound")
         (.-volume)
@@ -55,5 +52,4 @@
      [:i.fas.fa-volume-down.fa-2x.m-2 {:style {:color :black}}])
    [volume-slider]
    [:i.fas.fa-volume-up.fa-2x.d.m-2 {:style {:color :black}}]
-   ;[volume-level]
    ])
