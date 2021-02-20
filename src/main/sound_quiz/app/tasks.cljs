@@ -15,7 +15,9 @@
    {:title "mortal_kombat"
     :names ["mortal kombat"]}
    {:title "rock_and_roll_racing"
-    :names ["rock and roll racing" "rock n' roll racing"]}))
+    :names ["rock and roll racing" "rock n' roll racing"]}
+   {:title "prince_of_persia"
+    :names ["pop warrior within" "prince of persia"]}))
 
 (defn task-count []
   (count tasks))
