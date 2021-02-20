@@ -8,8 +8,8 @@
     :names ["disciples"]}
    {:title "disco_elysium"
     :names ["disco elysium"]}
-   {:title "wow"
-    :names ["wow" "world of warcraft" "warcraft"]}
+   {:title "world_of_warcraft"
+    :names ["wow" "world of warcraft"]}
    {:title "castlevania"
     :names ["castlevania"]}
    {:title "mortal_kombat"
