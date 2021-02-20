@@ -21,9 +21,12 @@
 
 (def game-round (core/atom 1))
 
+(def history (core/atom []))
+
 (defn proceed-next-quiz [result]
   (do
     (cnt/submit-result result)
+    (swap! history #(conj % {:task @task :correct result}))
     (reset! tasks (t/drop-task @task @tasks))
     (reset! task (t/take-task @tasks))
     (swap! game-round inc)
@@ -38,7 +41,7 @@
          (do
            (reset! input "")
            (proceed-next-quiz true))
-         [:div.input-group.input-group-lg.mb-3.border.border-dark.rounded
+         [:div.input-group.input-group-lg.mb-3
           [:div.input-group-prepend
            [:span#inputGroup-sizing-lg.input-group-text.font-weight-bold
             "Ответ"]]
