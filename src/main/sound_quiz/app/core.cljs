@@ -26,7 +26,7 @@
 (defn proceed-next-quiz [result]
   (do
     (cnt/submit-result result)
-    (swap! history #(conj % {:task @task :correct result}))
+    (md/update-history {:task @task :correct result})
     (reset! tasks (t/drop-task @task @tasks))
     (reset! task (t/take-task @tasks))
     (swap! game-round inc)
@@ -56,6 +56,8 @@
 
 (defn give-up []
   (proceed-next-quiz false))
+
+(def ids [{:x 1 :y 2} {:x 3 :y 4}])
 
 (defn task-selector []
   (if (not (empty? @tasks))
@@ -94,7 +96,8 @@
       [:a.btn.btn-primary.btn-lg.d-flex.d-inline-block.justify-content-center.m-2.border.border-dark
        {:href "/"
                                         ;:on-click restart
-        } "Начать заново?"]]
+        } "Начать заново?"]
+      (md/history-modal-button)]
      ]))
 
 (defn app []
@@ -110,9 +113,11 @@
 (defn ^:export main []
   (render-game)
   (vol/set-sound)
-  (md/render-modal))
+  (md/render-modal)
+  (md/render-history-modal))
 
 (defn ^:dev/after-load reload! []
   (render-game)
-  (md/render-modal))
+  (md/render-modal)
+  (md/render-history-modal))
 

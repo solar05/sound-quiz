@@ -19,6 +19,11 @@
    {:title "prince_of_persia"
     :names ["pop warrior within" "prince of persia"]}))
 
+(defn task-name [task]
+  (s/join " "
+          (map s/capitalize
+               (s/split (task :title)  #"_"))))
+
 (defn task-count []
   (count tasks))
 
