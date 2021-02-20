@@ -76,10 +76,10 @@
         {:on-click give-up} "Сдаться"]])
     [:div#gameover
      (when (cnt/all-correct?)
-       [:h2.font-weight-bold.d-flex.justify-content-center.m-3.text-success
+       [:h2.font-weight-bold.d-flex.justify-content-center.m-3.text-success.text-center
         "Вы все угадали!"])
      (when (cnt/all-incorrect?)
-       [:h2.font-weight-bold.d-flex.justify-content-center.m-3
+       [:h2.font-weight-bold.d-flex.justify-content-center.m-3.text-center
         "Вы ничего не угадали :( Попробуйте еще раз!"])
      [:div.container.btn-group.d-flex.d-inline-block.justify-content-center.mb-4
       {:role "group"}
