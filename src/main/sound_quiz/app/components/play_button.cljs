@@ -28,7 +28,6 @@
 (defn pause-ost []
   (do
     (stop "ost-sound")
-    (focus-answer)
     (swap! ost-playing not)))
 
 (defn play-response []
@@ -40,7 +39,6 @@
 (defn pause-response []
   (do
     (stop "resp-sound")
-    (focus-answer)
     (swap! response-playing not)))
 
 (defn ost-control-button []

@@ -94,11 +94,11 @@
      ]))
 
 (defn app []
-  [:div.container
+  [:di.d-flex.justify-content-center
    [:div.jumbotron {:style {:padding-bottom "0.6em" :padding-top "0.5em"}}
     [:h1.text-center.display-4.p-4 "Game Sound Quiz!"]
     [task-selector]
-    [:div.text-center.text-muted "Powered by: @solar05"]]])
+    [:div.text-center.text-muted.d-flex.justify-content-center "Powered by: @solar05"]]])
 
 (defn render-game []
   (rdom/render [app] (.getElementById js/document "root")))
