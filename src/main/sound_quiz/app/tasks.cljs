@@ -17,7 +17,9 @@
    {:title "rock_and_roll_racing"
     :names ["rock and roll racing" "rock n' roll racing"]}
    {:title "prince_of_persia"
-    :names ["pop warrior within" "prince of persia"]}))
+    :names ["pop warrior within" "prince of persia"]}
+   {:title "fallout"
+    :names ["fallout"]}))
 
 (defn task-name [task]
   (s/join " "
