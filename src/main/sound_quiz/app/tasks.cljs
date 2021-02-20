@@ -16,8 +16,6 @@
 (defn task-count []
   (count tasks))
 
-(defonce task-count (count tasks))
-
 (defn shuffle-tasks []
   (shuffle tasks))
 
