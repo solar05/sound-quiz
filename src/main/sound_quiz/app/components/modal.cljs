@@ -3,7 +3,19 @@
             [reagent.dom :as rdom]))
 
 (defn modal-content []
-  [:p "Угадайте, какой игре принадлежит мелодия и фраза. Введите название игры на английском, регистр не важен."])
+  [:div.modal-dialog.modal-dialog-centered
+   {:role "document"}
+   [:div.modal-content
+    [:div.modal-header
+     [:h5#infoModalLabel.modal-title
+      "Информация о проекте"]]
+    [:div.modal-body
+     [:p "Угадайте, какой игре принадлежит мелодия и фраза. Введите название игры на английском, регистр не важен."]]
+    [:div.modal-footer
+     [:button.btn.btn-secondary
+      {:type "button"
+       :data-dismiss "modal"}
+      "Закрыть"]]]])
 
 (defn modal-button []
   [:div.fixed-bottom.mt-auto
@@ -15,5 +27,5 @@
 
 (defn render-modal []
   (do
-    (rdom/render [modal-content] (.getElementById js/document "modal-body"))
+    (rdom/render [modal-content] (.getElementById js/document "infoModal"))
     (rdom/render [modal-button] (.getElementById js/document "footer-id"))))
