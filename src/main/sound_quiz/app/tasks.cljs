@@ -11,7 +11,11 @@
    {:title "wow"
     :names ["wow" "world of warcraft" "warcraft"]}
    {:title "castlevania"
-    :names ["castlevania"]}))
+    :names ["castlevania"]}
+   {:title "mortal_kombat"
+    :names ["mortal kombat"]}
+   {:title "rock_and_roll_racing"
+    :names ["rock and roll racing" "rock n' roll racing"]}))
 
 (defn task-count []
   (count tasks))
