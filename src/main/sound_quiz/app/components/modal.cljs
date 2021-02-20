@@ -39,9 +39,11 @@
                 (into acc
                       (if result
                         [[:tr.text-center
+                          [:th {:scope "row"}]
                           [:td [:span name]]
                           [:td [:i.fas.fa-check {:style {:color "#28a745"}}]]]]
                         [[:tr.text-center
+                          [:th {:scope "row"}]
                           [:td [:span name]]
                           [:td [:i.fas.fa-times {:style {:color "#dc3545"}}]]]]
                         ))))
@@ -56,9 +58,10 @@
      [:h5#historyModalLabel.modal-title
       "История игры"]]
     [:div.modal-body
-     [:table.table
+     [:table.table.table-striped.table-hover
       [:thead
        [:tr.text-center
+        [:th {:scope "col"}]
         [:td "Название"]
         [:td "Результат"]]]
       [history-modal-tasks]]]

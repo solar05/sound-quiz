@@ -74,11 +74,11 @@
            :preload :auto
            :on-ended pb/response-end-play}]
          [pb/response-control-button]]]
-       [:div.container.mb-4
-        [vol/volume-control]
-        [:a#give-up.btn.btn-warning.btn-lg.border.border-dark.float-right
-         {:on-click give-up} "Пропустить"]]
-       [game-logic]])
+       [:div.container.mb-4.d-flex.justify-content-center
+        [vol/volume-control]]
+       [game-logic]
+       [:a#give-up.btn.btn-warning.border.border-dark.d-flex.d-inline-block.justify-content-center.mb-2
+        {:on-click give-up} "Пропустить"]])
     [:div#gameover
      (when (cnt/all-correct?)
        [:h2.font-weight-bold.d-flex.justify-content-center.m-3.text-success.text-center
@@ -100,7 +100,7 @@
 
 (defn app []
   [:div.container
-   [:div.jumbotron {:style {:padding-bottom "1em" :padding-top "0.5em"}}
+   [:div.jumbotron {:style {:padding-bottom "0.5em" :padding-top "0.5em"}}
     [:h1.text-center.display-4.p-4 "Game Sound Quiz!"]
     [task-selector]
     [:div.text-center.text-muted "Powered by: @solar05"]]])

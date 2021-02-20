@@ -9,14 +9,14 @@
 (defn correct-counter [type]
   (if (= type :text)
     [:span#correct-counter.bg-success.border.border-dark.w-25.text-center.text-light.rounded-bottom.p-1
-     (str "Правильно: " @correct-answers)]
+     @correct-answers]
     [:span#correct-counter.btn.btn-success.btn-lg.border.border-dark.pl-5.pr-5
      (str "Правильно: " @correct-answers)]))
 
 (defn incorrect-counter [type]
   (if (= type :text)
     [:span#incorrect-counter.bg-danger.border.border-dark.w-25.text-center.text-light.rounded-bottom.p-1
-     (str "Неправильно: " @incorrect-answers)]
+     @incorrect-answers]
     [:span#incorrect-counter.btn.btn-danger.btn-lg.border.border-dark.pl-5.pr-5
      (str "Неправильно: " @incorrect-answers)]))
 
@@ -37,7 +37,7 @@
   (= @incorrect-answers task-count))
 
 (defn counters-with-round [step]
-  [:div#counters
+  [:div#counters.container
    [:div.container.btn-group.d-flex.d-inline-block.justify-content-center
     {:role "group"}
     [:span#round-counter.bg-primary.border.border-dark.w-50.text-center.text-light.rounded-top.p-1
@@ -48,8 +48,8 @@
     [incorrect-counter :text]]])
 
 (defn counters-without-round []
-  [:div#counters
-   [:div.container.btn-group.d-flex.d-inline-block.justify-content-center
+  [:div#counters.container
+   [:div.container.btn-group
     {:role "group"}
     [correct-counter :btn]
     [incorrect-counter :btn]]])
