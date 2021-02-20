@@ -59,43 +59,45 @@
         [cnt/correct-counter]
         [cnt/incorrect-counter]]
        [:div.d-flex.d-inline-block.justify-content-center.m-2
-        (when (paths :ost)
-          [:div#ost-container.p-4
-           [:audio#ost-sound
-            {:src (paths :ost) :controlsList :nodownload
-             :preload :auto :on-ended pb/ost-end-play}]
-           [pb/ost-control-button]])
-        (when (paths :resp)
-          [:div#resp-container.p-4
-           [:audio#resp-sound
-            {:src (paths :resp)
-             :preload :auto
-             :on-ended pb/response-end-play}]
-           [pb/response-control-button]])
-        ]
+        [:div#ost-container.p-4
+         [:audio#ost-sound
+          {:src (paths :ost) :controlsList :nodownload
+           :preload :auto :on-ended pb/ost-end-play}]
+         [pb/ost-control-button]]
+        [:div#resp-container.p-4
+         [:audio#resp-sound
+          {:src (paths :resp)
+           :preload :auto
+           :on-ended pb/response-end-play}]
+         [pb/response-control-button]]]
        [game-logic]
        [vol/volume-control]
        [:a#give-up.btn.btn-warning.btn-lg.border.border-dark.float-right
         {:on-click give-up} "Сдаться"]])
-      [:div#gameover
-       ;[:h2.font-weight-bold.d-flex.d-inline-block.justify-content-center.m-3
-       ; "Результат"]
-       [:div.container.btn-group.d-flex.d-inline-block.justify-content-center.mb-4
-        {:role "group"}
-        [cnt/correct-counter]
-        [cnt/incorrect-counter]]
-       [:div.container
-        [:a.btn.btn-primary.btn-lg.d-flex.d-inline-block.justify-content-center.m-2
-         {:href "/"
-          ;:on-click restart
-          } "Начать заново?"]]
-       ]))
+    [:div#gameover
+     (when (cnt/all-correct?)
+       [:h2.font-weight-bold.d-flex.justify-content-center.m-3.text-success
+        "Вы все угадали!"])
+     (when (cnt/all-incorrect?)
+       [:h2.font-weight-bold.d-flex.justify-content-center.m-3
+        "Вы ничего не угадали :( Попробуйте еще раз!"])
+     [:div.container.btn-group.d-flex.d-inline-block.justify-content-center.mb-4
+      {:role "group"}
+      [cnt/correct-counter]
+      [cnt/incorrect-counter]]
+     [:div.container
+      [:a.btn.btn-primary.btn-lg.d-flex.d-inline-block.justify-content-center.m-2
+       {:href "/"
+        ;:on-click restart
+        } "Начать заново?"]]
+     ]))
 
 (defn app []
   [:div.container
-   [:div.jumbotron {:style {:padding-bottom "1.2em" :padding-top "0.5em"}}
+   [:div.jumbotron {:style {:padding-bottom "0.6em" :padding-top "0.5em"}}
     [:h1.text-center.display-4.p-4 "Game Sound Quiz!"]
-    [task-selector]]])
+    [task-selector]
+    [:div.text-center.text-muted "Powered by: @solar7455"]]])
 
 (defn render-game []
   (rdom/render [app] (.getElementById js/document "root")))

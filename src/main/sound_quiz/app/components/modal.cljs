@@ -6,7 +6,7 @@
   [:p "Угадайте, какой игре принадлежит мелодия и фраза. Введите название игры на английском, регистр не важен."])
 
 (defn modal-button []
-  [:div.footer.fixed-bottom
+  [:div.fixed-bottom.mt-auto
    [:a.m-3.float-right
     {:href "#"
      :data-toggle "modal"
