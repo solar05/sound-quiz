@@ -15,13 +15,13 @@
     :aria-describedby "inputGroup-sizing-lg"
     :on-change #(reset! value (-> % .-target .-value))}])
 
-(def tasks (core/atom (t/shuffle-tasks)))
+(defonce tasks (core/atom (t/shuffle-tasks)))
 
-(def task (core/atom (t/take-task @tasks)))
+(defonce task (core/atom (t/take-task @tasks)))
 
-(def game-round (core/atom 1))
+(defonce game-round (core/atom 1))
 
-(def history (core/atom []))
+(defonce history (core/atom []))
 
 (defn proceed-next-quiz [result]
   (do
@@ -92,9 +92,7 @@
       [cnt/incorrect-counter]]
      [:div.container
       [:a.btn.btn-primary.btn-lg.d-flex.d-inline-block.justify-content-center.m-2.border.border-dark
-       {:href "/"
-                                        ;:on-click restart
-        } "Начать заново?"]
+       {:href "/" } "Начать заново?"]
       (md/history-modal-button)]
      ]))
 

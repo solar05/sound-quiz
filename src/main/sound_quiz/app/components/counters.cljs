@@ -2,9 +2,9 @@
   (:require [reagent.core :as core]
             [sound-quiz.app.tasks :as t]))
 
-(def correct-answers (core/atom 0))
-(def incorrect-answers (core/atom 0))
-(def task-count (t/task-count))
+(defonce correct-answers (core/atom 0))
+(defonce incorrect-answers (core/atom 0))
+(defonce task-count (t/task-count))
 
 (defn correct-counter [type]
   (if (= type :text)

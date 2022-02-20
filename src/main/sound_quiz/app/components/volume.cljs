@@ -11,7 +11,7 @@
       default-volume
       volume)))
 
-(def volume-level-val (core/atom (check-sound)))
+(defonce volume-level-val (core/atom (check-sound)))
 
 (defn proceed-elements-volume [volume]
   (do
