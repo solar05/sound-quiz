@@ -19,7 +19,15 @@
    {:title "prince_of_persia"
     :names ["pop warrior within" "prince of persia"]}
    {:title "fallout"
-    :names ["fallout"]}))
+    :names ["fallout"]}
+   {:title "dmc"
+    :names ["devil may cry 5" "devil may cry v" "dmc 5" "dmc v"]}
+   {:title "mgr"
+    :names ["mgr" "metal gear rising"]}
+    {:title "dark_souls"
+    :names ["dark souls" "ds"]}
+    {:title "bayonetta"
+     :names ["bayonetta"]}))
 
 (defn task-name [task]
   (s/join " "
