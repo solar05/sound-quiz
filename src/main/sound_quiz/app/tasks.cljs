@@ -20,9 +20,9 @@
     :names ["pop warrior within" "prince of persia"]}
    {:title "fallout"
     :names ["fallout"]}
-   {:title "dmc"
+   {:title "devil_may_cry"
     :names ["devil may cry 5" "devil may cry v" "dmc 5" "dmc v"]}
-   {:title "mgr"
+   {:title "metal_gear_rising"
     :names ["mgr" "metal gear rising"]}
     {:title "dark_souls"
     :names ["dark souls" "ds"]}
