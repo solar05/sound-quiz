@@ -4,7 +4,7 @@
 Web app, where you solve sound quizes (game ost and responses).
 
 ## Link
-[Sound Quiz](http://soundquiz.ru)
+[Sound Quiz](https://sound-quiz.herokuapp.com/)
 
 ### Instruments
 Powered by shadow-cljs (build-tool and compiler) and ClojureScript!
@@ -13,7 +13,7 @@ Powered by shadow-cljs (build-tool and compiler) and ClojureScript!
 - `make run` - runs app in dev mode with live reloading (open localhost:3000).
 - `make build` - builds app for prod.
 - `make test`  - runs test.
-- `make clearr` - clear node_modules and some additional files.
+- `make clear` - clear node_modules and some additional files.
 
 Also, project supports docker commands.
 - `make docker-run` - runs app inside docker.
