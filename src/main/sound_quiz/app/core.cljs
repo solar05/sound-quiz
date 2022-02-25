@@ -1,6 +1,7 @@
 (ns sound-quiz.app.core
   (:require [reagent.dom :as rdom]
             [reagent.core :as core]
+            [clojure.string :as s]
             [sound-quiz.app.components.play-button :as pb]
             [sound-quiz.app.components.counters :as cnt]
             [sound-quiz.app.tasks :as t]
@@ -24,20 +25,19 @@
 (defonce history (core/atom []))
 
 (defn proceed-next-quiz [result]
-  (do
-    (cnt/submit-result result)
-    (md/update-history {:task @task :correct result})
-    (reset! tasks (t/drop-task @task @tasks))
-    (reset! task (t/take-task @tasks))
-    (swap! game-round inc)
-    (pb/ost-end-play)
-    (pb/response-end-play)))
+  (cnt/submit-result result)
+  (md/update-history {:task @task :correct result})
+  (reset! tasks (t/drop-task @task @tasks))
+  (reset! task (t/take-task @tasks))
+  (swap! game-round inc)
+  (pb/ost-end-play)
+  (pb/response-end-play))
 
 (defn game-logic []
   (let [input (core/atom "")]
     (fn []
       [:div
-       (if (t/correct? @task @input)
+       (if (t/correct? @task (s/trim-newline (s/trim @input)))
          (do
            (reset! input "")
            (proceed-next-quiz true))
@@ -48,11 +48,10 @@
           [answer-input input]])])))
 
 (defn restart []
-  (do
-    (reset! tasks (t/shuffle-tasks))
-    (reset! task (t/take-task @tasks))
-    (cnt/reset-counters)
-    (vol/set-sound)))
+  (reset! tasks (t/shuffle-tasks))
+  (reset! task (t/take-task @tasks))
+  (cnt/reset-counters)
+  (vol/set-sound))
 
 (defn give-up []
   (proceed-next-quiz false))

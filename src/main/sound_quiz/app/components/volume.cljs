@@ -1,7 +1,6 @@
 (ns sound-quiz.app.components.volume
   (:require [reagent.core :as core]
             [reagent.cookies :as cookie]
-            [goog.string :as gstr]
             [goog.string.format]))
 
 (defn check-sound []

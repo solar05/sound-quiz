@@ -20,26 +20,22 @@
       (. pause)))
 
 (defn play-ost []
-  (do
-    (play "ost-sound")
-    (focus-answer)
-    (swap! ost-playing not)))
+  (play "ost-sound")
+  (focus-answer)
+  (swap! ost-playing not))
 
 (defn pause-ost []
-  (do
-    (stop "ost-sound")
-    (swap! ost-playing not)))
+  (stop "ost-sound")
+  (swap! ost-playing not))
 
 (defn play-response []
-  (do
-    (play "resp-sound")
-    (focus-answer)
-    (swap! response-playing not)))
+  (play "resp-sound")
+  (focus-answer)
+  (swap! response-playing not))
 
 (defn pause-response []
-  (do
-    (stop "resp-sound")
-    (swap! response-playing not)))
+  (stop "resp-sound")
+  (swap! response-playing not))
 
 (defn ost-control-button []
   (if (not @ost-playing)
